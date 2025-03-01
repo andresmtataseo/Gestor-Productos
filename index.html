@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Gestor de Productos</title>
+    <link rel="stylesheet" href="styles.css" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container">
+    <div class="wrapper">
+        <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+            <a href="/"
+               class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                <span class="fs-4">Gestor de Productos</span>
+            </a>
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a href="index.html" class="nav-link active" aria-current="page">Inicio</a></li>
+                <li class="nav-item"><a href="acercade.html" class="nav-link">Acerca de</a></li>
+            </ul>
+        </header>
+
+        <div class="container">
+            <div class="d-flex justify-content-center mb-4">
+                <button class="btn btn-success" type="button" data-bs-toggle="modal"
+                        data-bs-target="#agregarProductoModal">
+                    Agregar Producto
+                </button>
+            </div>
+        </div>
+
+        <div class="content">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+                </thead>
+                <tbody id="tablaProductos">
+                </tbody>
+            </table>
+        </div>
+
+        <footer class="py-3 my-4">
+            <div class="container">
+                <p class="text-center text-body-secondary">© 2025 Andres Moreno Company, Inc</p>
+            </div>
+        </footer>
+    </div>
+
+</div>
+
+<div class="modal fade" id="agregarProductoModal" tabindex="-1" aria-labelledby="agregarProductoModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="agregarProductoModalLabel">Agregar Producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formAgregarProducto">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="nombre" placeholder="Ejemplo: Doritos XL"
+                               maxlength="50" required>
+                        <label for="nombre">Nombre del producto</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="descripcion"
+                               placeholder="Escribe una descripción detallada del producto" maxlength="200" required>
+                        <label for="descripcion">Descripción</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="number" class="form-control" id="precio" placeholder="Ejemplo: 10.5" step="0.01"
+                               required min="0.01">
+                        <label for="precio">Precio</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="number" class="form-control" id="stock" placeholder="Ejemplo: 100" required
+                               min="0">
+                        <label for="stock">Stock</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="btnGuardar">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="editarProductoModal" tabindex="-1" aria-labelledby="editarProductoModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editarProductoModalLabel">Editar Producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditarProducto" novalidate>
+                    <input type="hidden" id="idEditar">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="nombreEditar" placeholder="Ejemplo: Doritos XL"
+                               maxlength="50" required>
+                        <label for="nombreEditar">Nombre del producto</label>
+                        <div class="invalid-feedback">
+                            El nombre es obligatorio y debe tener máximo 50 caracteres.
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="descripcionEditar"
+                               placeholder="Escribe una descripción detallada del producto" maxlength="200" required>
+                        <label for="descripcionEditar">Descripción</label>
+                        <div class="invalid-feedback">
+                            La descripción es obligatoria y debe tener máximo 200 caracteres.
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="number" class="form-control" id="precioEditar" placeholder="Ejemplo: 10.5"
+                               step="0.01" required min="0.01">
+                        <label for="precioEditar">Precio</label>
+                        <div class="invalid-feedback">
+                            El precio es obligatorio y debe ser un número positivo.
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="number" class="form-control" id="stockEditar" placeholder="Ejemplo: 100" required
+                               min="0">
+                        <label for="stockEditar">Stock</label>
+                        <div class="invalid-feedback">
+                            El stock es obligatorio y debe ser un número entero mayor o igual a cero.
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="btnGuardarCambios">Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="confirmarEliminarModal" tabindex="-1" aria-labelledby="confirmarEliminarModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmarEliminarModalLabel">Confirmar Eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que deseas eliminar este producto?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" id="btnEliminar">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
