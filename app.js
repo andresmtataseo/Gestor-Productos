@@ -26,6 +26,22 @@ function validarFormulario(formId) {
     });
 }
 
+function mostrarAlerta(mensaje, tipo) {
+    const alertContainer = document.getElementById('alertContainer');
+    const alerta = document.createElement('div');
+    alerta.className = `alert alert-${tipo} alert-dismissible fade show`;
+    alerta.role = 'alert';
+    alerta.innerHTML = `
+        ${mensaje}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    `;
+    alertContainer.appendChild(alerta);
+
+    setTimeout(() => {
+        alerta.remove();
+    }, 5000);
+}
+
 function limpiarFormularioAgregar() {
     document.getElementById('nombre').value = '';
     document.getElementById('descripcion').value = '';
@@ -113,8 +129,10 @@ async function crearProducto() {
         const modalAgregar = bootstrap.Modal.getInstance(document.getElementById('agregarProductoModal'));
         modalAgregar.hide();
         limpiarFormularioAgregar();
+        mostrarAlerta("Producto creado exitosamente.", "success");
     } catch (error) {
         console.error('Error al crear el producto:', error);
+        mostrarAlerta("Error al crear el producto. Verifica la consola para más detalles.", "danger");
     }
 }
 
@@ -182,18 +200,18 @@ async function actualizarProducto() {
         const data = await response.json();
         console.log(data);
         cargarProductos();
-
-
         const modalEditar = bootstrap.Modal.getInstance(document.getElementById('editarProductoModal'));
         modalEditar.hide();
+        mostrarAlerta("Producto actualizado exitosamente.", "success");
     } catch (error) {
         console.error('Error al actualizar el producto:', error);
+        mostrarAlerta("Error al actualizar el producto. Verifica la consola para más detalles.", "danger");
     }
 }
 
 function abrirModalEliminar(id) {
     productoAEliminar = id;
-    new bootstrap.Modal(document.getElementById('confirmarEliminarModal')).show(); // Abre el modal
+    new bootstrap.Modal(document.getElementById('confirmarEliminarModal')).show();
 }
 
 async function eliminarProducto() {
@@ -207,8 +225,10 @@ async function eliminarProducto() {
 
         const modalEliminar = bootstrap.Modal.getInstance(document.getElementById('confirmarEliminarModal'));
         modalEliminar.hide();
+        mostrarAlerta("Producto eliminado exitosamente.", "success");
     } catch (error) {
         console.error('Error al eliminar el producto:', error);
+        mostrarAlerta("Error al eliminar el producto. Verifica la consola para más detalles.", "danger");
     }
 }
 
